@@ -1,0 +1,33 @@
+// copy the last row of a sheet into another sheet (append it)
+// Credit: Istvan Maczko
+
+function initCopy() {
+  const TARGETSPREADSHEETID = 'YOURSHEETID '; // find it in the sheet url
+  const TARGETSHEETNAME = 'NAMEOFTHETARGETSHEET'; // like "Sheet1"
+  copylastRowToAnotherSheet(TARGETSPREADSHEETID, TARGETSHEETNAME);
+}
+
+function copylastRowToAnotherSheet(targetSpreadSheetId, targetSheetName) {
+  
+  // Source Sheet
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dataSheet = ss.getActiveSheet();
+  var lastRow = dataSheet.getLastRow();
+  var lastColumn = dataSheet.getLastColumn();
+  
+  var dataToCopy = dataSheet.getRange(lastRow,1,1,lastColumn).getValues();
+  Logger.log(dataToCopy);
+  
+  // Target Spreadsheet
+  var targetSpreadSheet = SpreadsheetApp.openById(targetSpreadSheetId);
+  // Target Sheet
+  var targetSheet = targetSpreadSheet.getSheetByName(targetSheetName);
+  // First Empty Row
+  var firstEmptyRow = targetSheet.getLastRow() + 1;
+  
+  Logger.log(firstEmptyRow);
+  Logger.log(lastColumn);
+  
+  targetSheet.getRange(firstEmptyRow,1,1,lastColumn).setValues(dataToCopy);
+
+};
